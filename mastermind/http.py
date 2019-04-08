@@ -1,5 +1,6 @@
 from __future__ import (absolute_import, print_function, division)
-from mitmproxy.models import Headers, HTTPResponse
+from mitmproxy.net.http import Headers
+from mitmproxy import http
 
 
 status_codes = {100: 'Continue',
@@ -53,7 +54,7 @@ def response(code, body=b'', headers=None):
     if headers is None:
         headers = Headers()
 
-    return HTTPResponse('HTTP/1.1',
-                        code,
-                        status_message(code),
-                        headers, body)
+    return http.HTTPResponse('HTTP/1.1',
+                             code,
+                             status_message(code),
+                             headers, body)

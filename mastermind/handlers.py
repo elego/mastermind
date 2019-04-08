@@ -1,7 +1,7 @@
 from __future__ import (absolute_import, print_function, division)
 import time
 import yaml
-from mitmproxy.models import Headers
+from mitmproxy.net.http import Headers
 
 from . import (http, rules, validator)
 from .driver import driver
