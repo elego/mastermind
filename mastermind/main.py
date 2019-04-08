@@ -27,7 +27,7 @@ def main():
         parser.exit(message=pid.message(host, port))
 
     if type(mitm_args) == Exception:
-        parser.error(mitm_args.message)
+        parser.error(str(mitm_args))
 
     say.level(config["core"]["verbose"])
 
