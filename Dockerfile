@@ -1,8 +1,8 @@
-FROM python:2.7-slim
+FROM python:3-slim
 MAINTAINER Arnau Siches <arnau@ustwo.com>
 
 ENV DEBIAN_FRONTEND noninteractive
-ENV PYTHON /usr/bin/python2.7
+ENV PYTHON /usr/bin/python3
 ENV LANG en_US.UTF-8
 ENV LC_ALL C.UTF-8
 

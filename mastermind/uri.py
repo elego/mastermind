@@ -1,5 +1,5 @@
 from __future__ import (absolute_import, print_function, division)
-from urlparse import urlsplit, parse_qsl
+from urllib.parse import urlsplit, parse_qsl
 
 from . import rfc6570
 
@@ -61,7 +61,7 @@ def path_segments(path):
     """
         Receives a URI path (str) and returns its segments.
     """
-    return filter(lambda x: len(x) > 0, path.split("/"))
+    return list(filter(lambda x: len(x) > 0, path.split("/")))
 
 
 def query_pairs(query):

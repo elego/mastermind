@@ -23,7 +23,7 @@ meta:
 .PHONY: meta
 
 env:
-	virtualenv $(ENV) --always-copy
+	virtualenv $(ENV) --always-copy --python=python3
 .PHONY: env
 
 # Note: Downgrades setuptools to 19.2 so PyInstaller 3.1 does not fail.

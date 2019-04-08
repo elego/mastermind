@@ -172,7 +172,7 @@ if sys.platform != "darwin":
     def test_proxy_settings_not_osx():
         args = cli.args().parse_args(['--config',
                                       'test/fixtures/proxy-on.toml'])
-        with pytest.raises(StandardError):
+        with pytest.raises(Exception):
             cli.config(args)
 
 

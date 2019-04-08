@@ -1,5 +1,5 @@
 from __future__ import (absolute_import, print_function, division)
-from mitmproxy.main import mitmdump
+from mitmproxy.tools.main import mitmdump
 import os
 import pytoml as toml
 

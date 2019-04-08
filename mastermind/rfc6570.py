@@ -132,7 +132,7 @@ def expand_pairs(tpl, pairs, partial=False):
         prefix = operator
         infix = operator if operator == ";" else "&"
 
-        variable_list = map(lambda x: x.strip(), expression.split(","))
+        variable_list = list(map(lambda x: x.strip(), expression.split(",")))
 
         tokens = take_tokens(variable_list, pairs, operator)
         leftovers = take_leftovers(variable_list, pairs)

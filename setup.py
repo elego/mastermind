@@ -34,17 +34,17 @@ setup(
         'Intended Audience :: Developers',
         'Topic :: Software Development :: Build Tools',
         'License :: OSI Approved :: MIT License',
-        'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.6',
     ],
     packages=find_packages(),
-    install_requires=['mitmproxy==0.17',
-                      'Flask<0.11,>=0.10.1',
-                      'pyYAML==3.11',
-                      'jsonschema==2.5',
-                      'coloredlogs==5.0',
-                      'pytoml==0.1',
-                      'tinydb==3.1'],
+    install_requires=['mitmproxy==4.0.4',
+                      'Flask==1.0.2',
+                      'PyYAML==5.1',
+                      'jsonschema==3.0.1',
+                      'coloredlogs==10.0',
+                      'pytoml==0.1.20',
+                      'tinydb==3.13.0'],
 
     # List additional groups of dependencies here (e.g. development
     # dependencies). You can install these using the following syntax,
@@ -69,7 +69,7 @@ setup(
     entry_points={
         'console_scripts': [
             'proxyswitch=mastermind.proxyswitch:main',
-            'mastermind=mastermind:main',
+            'mastermind=mastermind.main:main',
         ],
     },
 )

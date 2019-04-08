@@ -19,7 +19,7 @@ def read_file(filepath):
 
 
 def select(request_method, request_url, ruleset):
-    return filter(match_rule(request_method, request_url), ruleset)
+    return list(filter(match_rule(request_method, request_url), ruleset))
 
 
 def match_rule(request_method, request_url):
