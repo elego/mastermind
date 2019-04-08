@@ -66,22 +66,22 @@ def main():
     parser.add_argument("--toggle",
                         action="store_true",
                         help="just toggle the proxy configuration")
-    parser.add_argument("--port",
+    parser.add_argument("--listen-port",
                         help="Default port 8080",
                         default="8080")
-    parser.add_argument("--host",
+    parser.add_argument("--listen-host",
                         help="Default host 127.0.0.1",
                         default="127.0.0.1")
 
     args, extra_arguments = parser.parse_known_args()
 
     if args.enable:
-        return enable(args.host, args.port)
+        return enable(args.listen_host, args.listen_port)
 
     if args.disable:
         return disable()
 
     if args.toggle:
-        return toggle(args.host, args.port)
+        return toggle(args.listen_host, args.listen_port)
 
     return parser.print_help()

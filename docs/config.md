@@ -16,10 +16,14 @@ For example, given the following configuration file:
 
 ```toml
 # mm-config.toml
-port = 8099
-host = "127.0.0.1"
+[core]
+listen-port = 8099
+listen-host = "127.0.0.1"
 verbose = 0
 source-dir = "./rulesets"
+
+[os]
+proxy-settings = false
 ```
 
 You would use it normally as:
@@ -34,7 +38,7 @@ Which would set a proxy running on 127.0.0.1:8099 loading rulesets from
 Then, you can change the port and verbosity with:
 
 ```sh
-mastermind --config mm-config.toml --port 9900 -vvv
+mastermind --config mm-config.toml --listen-port 9900 -vvv
 ```
 
 Which would set the proxy on 127.0.0.1:9900 with verbosity 3 (debug).
@@ -46,8 +50,8 @@ Below you will find all of them with its equivalent flag.
 
 ### `core` section
 
-* `host` (`--host`): The proxy host. Defaults to 0.0.0.0.
-* `port` (`--port`): The proxy port. Defaults to 8080.
+* `listen-host` (`--listen-host`): The proxy host. Defaults to 0.0.0.0.
+* `listen-port` (`--listen-port`): The proxy port. Defaults to 8080.
 * `verbose` (`--verbose`): The logging verbosity.  Defaults to 2.  If bigger than 3it enables verbosity in mitm.
 * `quiet` (`--quiet`): Equivalent to `verbose = 0`.
 * `source-dir` (`--source-dir`): The directory where Mastermind will check for rulesets.

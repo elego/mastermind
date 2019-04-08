@@ -15,7 +15,7 @@ mastermind-driver:
 
 mastermind-simple:
 	@$(shell pwd)/mastermind.py -vvvvvv \
-                              --port 8080 \
+                              --listen-port 8080 \
                               --without-proxy-settings \
                               --response-body $(shell pwd)/test/records/fake.json \
                               --url https://api.github.com/users/octocat/orgs
@@ -23,7 +23,7 @@ mastermind-simple:
 
 mastermind-simple-settings:
 	@$(shell pwd)/mastermind.py -vvvvvv \
-                              --port 8900 \
+                              --listen-port 8900 \
                               --response-body $(shell pwd)/test/records/fake.json \
                               --url https://api.github.com/users/octocat/orgs
 .PHONY: mastermind-simple-settings
@@ -31,7 +31,7 @@ mastermind-simple-settings:
 
 mastermind-simple-broken1:
 	@$(shell pwd)/mastermind.py \
-                              --port 8080 \
+                              --listen-port 8080 \
                               --without-proxy-settings \
                               --response-body $(shell pwd)/test/records/fake.json \
                               https://api.github.com/users/octocat/orgs
@@ -39,7 +39,7 @@ mastermind-simple-broken1:
 
 mastermind-simple-broken2:
 	@$(shell pwd)/mastermind.py \
-                              --port 8900 \
+                              --listen-port 8900 \
                               --without-proxy-settings \
                               --url https://api.github.com/users/octocat/orgs
 .PHONY: mastermind-simple-broken2

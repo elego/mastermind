@@ -58,9 +58,9 @@ def args():
                                 When passed, --response-body and
                                 --url are ignored''')
 
-    parser.add_argument("--port",
+    parser.add_argument("--listen-port",
                         help="Default port 8080")
-    parser.add_argument("--host",
+    parser.add_argument("--listen-host",
                         help="Default host 0.0.0.0")
     parser.add_argument("--without-proxy-settings",
                         action="store_true",
@@ -100,8 +100,8 @@ def mitm_args(config):
 def default_config():
     proxy_settings = sys.platform == "darwin"
     return {"core": {"verbose": 2,
-                     "host": "0.0.0.0",
-                     "port": 8080},
+                     "listen-host": "0.0.0.0",
+                     "listen-port": 8080},
             "mitm": {},
             "os": {"proxy-settings": proxy_settings}}
 
@@ -140,11 +140,11 @@ def merge(config, args):
         FIXME: Find a nicer way to merge args with config.
     """
 
-    if args.host:
-        config["core"]["host"] = args.host
+    if args.listen_host:
+        config["core"]["listen-host"] = args.client_host
 
-    if args.port:
-        config["core"]["port"] = args.port
+    if args.listen_port:
+        config["core"]["listen-port"] = args.client_port
 
     if args.verbose:
         config["core"]["verbose"] = args.verbose
@@ -174,16 +174,16 @@ def simple_mode(config):
     if not ("response-body" in config["core"] and "url" in config["core"]):
         return Exception("Simple mode requires response-body and url flags")
 
-    script_path_template = "{}/scripts/simple.py {} {}"
+    script_path_template = "{}/scripts/simple.py"
     script_path = os.path.dirname(os.path.realpath(__file__))
 
     if getattr(sys, 'frozen', False):
         script_path = sys._MEIPASS
 
     script_arg = ["--script",
-                  script_path_template.format(script_path,
-                                              config["core"]["url"],
-                                              config["core"]["response-body"])]
+                  script_path_template.format(script_path),
+                  config["core"]["url"],
+                  config["core"]["response-body"]]
 
     return common_args(config) + script_arg + verbosity_args(config)
 
@@ -214,25 +214,26 @@ def driver_mode(config):
     if not os.path.isdir(storage_path()):
         os.makedirs(storage_path())
 
-    script_path_template = "{}/scripts/flasked.py {} {} {} {}"
+    script_path_template = "{}/scripts/flasked.py"
     script_path = os.path.dirname(os.path.realpath(__file__))
     if getattr(sys, 'frozen', False):
         script_path = sys._MEIPASS
 
     script_arg = ["--script",
-                  script_path_template.format(script_path,
-                                              config["core"]["source-dir"],
-                                              config["core"]["storage-dir"],
-                                              config["core"]["host"],
-                                              config["core"]["port"])]
+                  script_path_template.format(script_path),
+                  config["core"]["source-dir"],
+                  config["core"]["storage-dir"],
+                  config["core"]["listen-host"],
+                  str(config["core"]["listen-port"])
+                 ]
 
     return common_args(config) + script_arg + verbosity_args(config)
 
 
 def common_args(config):
-    return ["--host",
-            "--port", str(config["core"]["port"]),
-            "--bind-address", config["core"]["host"]]
+    return ["--showhost",
+            "--listen-port", str(config["core"]["listen-port"]),
+            "--listen-host", config["core"]["listen-host"]]
 
 
 def verbosity_args(config):

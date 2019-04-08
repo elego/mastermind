@@ -19,8 +19,8 @@ def main():
 
     mitm_args = cli.mitm_args(config)
     is_sudo = os.getuid() == 0
-    host = config["core"]["host"]
-    port = config["core"]["port"]
+    host = config["core"]["listen-host"]
+    port = config["core"]["listen-port"]
     pid_filename = pid.filename(host, port)
 
     if args.pid:

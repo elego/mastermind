@@ -27,27 +27,27 @@ http-ustwo:
 
 simple:
 	@mitmproxy --verbose \
-             --host \
+             --showhost \
              --eventlog
 
 d-simple:
 	@mitmdump --verbose \
-            --host
+            --showhost
 
 w-simple:
 	@mitmweb --verbose \
-           --host \
+           --showhost \
            --wport 9980 \
            --wdebug
 
 d-script:
 	@mitmdump --verbose \
-            --host \
+            --showhost \
             --script $(PWD)/sandbox/example.py
 
 p-script:
 	@mitmproxy --verbose \
-             --host \
+             --showhost \
              --script "$(PWD)/sandbox/example.py"
 
 record:
@@ -59,7 +59,7 @@ replay:
 transparent:
 	@mitmproxy --transparent \
              --verbose \
-             --host \
+             --showhost \
              --eventlog
 
 pf:
