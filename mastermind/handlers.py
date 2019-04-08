@@ -1,7 +1,7 @@
 from __future__ import (absolute_import, print_function, division)
 import time
 import yaml
-from mitmproxy.models import decoded, Headers
+from mitmproxy.models import Headers
 
 from . import (http, rules, validator)
 from .driver import driver
@@ -45,33 +45,32 @@ def response(context, flow):
             if delay:
                 time.sleep(delay)
 
-            with decoded(flow.response):
-                status_code = rules.status_code(rule)
-                body_filename = rules.body_filename(rule)
-                schema = rules.schema(rule,
-                                      context.source_dir)
+            status_code = rules.status_code(rule)
+            body_filename = rules.body_filename(rule)
+            schema = rules.schema(rule,
+                                    context.source_dir)
 
-                if status_code:
-                    status_message = http.status_message(status_code)
+            if status_code:
+                status_message = http.status_message(status_code)
 
-                    flow.response.status_code = status_code
-                    flow.response.msg = status_message
+                flow.response.status_code = status_code
+                flow.response.msg = status_message
 
-                if schema:
-                    table = driver.db.table(flow.request.url)
-                    res = yaml.safe_load(flow.response.content)
-                    schema_result = validator.check(res, schema)
-                    table.insert_multiple(schema_result)
-                    logger.info(schema_result)
+            if schema:
+                table = driver.db.table(flow.request.url)
+                res = yaml.safe_load(flow.response.content)
+                schema_result = validator.check(res, schema)
+                table.insert_multiple(schema_result)
+                logger.info(schema_result)
 
-                rules.process_headers('response',
-                                      rule,
-                                      flow.response.headers)
+            rules.process_headers('response',
+                                    rule,
+                                    flow.response.headers)
 
-                if body_filename:
-                    # 204 might be set by the skip rule in the request hook
-                    if flow.response.status_code == 204:
-                        flow.response.status_code = 200
-                        flow.response.msg = 'OK'
-                    flow.response.content = rules.body(body_filename,
-                                                       context.source_dir)
+            if body_filename:
+                # 204 might be set by the skip rule in the request hook
+                if flow.response.status_code == 204:
+                    flow.response.status_code = 200
+                    flow.response.msg = 'OK'
+                flow.response.content = rules.body(body_filename,
+                                                    context.source_dir)

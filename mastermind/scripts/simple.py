@@ -1,5 +1,4 @@
 from __future__ import (absolute_import, print_function, division)
-from mitmproxy.models import decoded
 
 
 def response(context, flow):
@@ -12,9 +11,8 @@ def response(context, flow):
         if 'ETag' in flow.response.headers:
             del flow.response.headers['ETag']
 
-        with decoded(flow.response):
-            data = open(context.filepath).read()
-            flow.response.content = data
+        data = open(context.filepath).read()
+        flow.response.content = data
 
 
 def start(context, argv):
