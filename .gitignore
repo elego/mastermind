@@ -2,6 +2,7 @@
 *.egg-info
 *.pyc
 .cache
+.vscode
 __pycache__
 build
 dist
