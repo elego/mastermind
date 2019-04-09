@@ -1,8 +1,12 @@
 from __future__ import (absolute_import, print_function, division)
 
+import sys
+import mitmproxy
+from mitmproxy import ctx
 
-def response(context, flow):
-    if flow.request.url == context.url:
+
+def response(flow: mitmproxy.http.HTTPFlow) -> None:
+    if flow.request.url == ctx.url:
         flow.request.headers['Cache-Control'] = 'no-cache'
         flow.response.headers['Cache-Control'] = 'no-cache'
 
@@ -11,13 +15,25 @@ def response(context, flow):
         if 'ETag' in flow.response.headers:
             del flow.response.headers['ETag']
 
-        data = open(context.filepath).read()
+        data = open(ctx.response_body).read()
         flow.response.content = data
 
 
-def start(context, argv):
-    context.url = argv[1]
-    context.filepath = argv[2]
+def load(loader):
+    ctx.log.info("Registering option 'url'")
+    loader.add_option(
+        "url", str, "", "A URL to mock its response",
+    )
+    ctx.log.info("Registering option 'response_body'")
+    loader.add_option(
+        "response_body", str, "", (
+            "A file containing the mocked response body"
+        )
+    )
 
-    context.log(context.url)
-    context.log(context.filepath)
+
+def configure(updated):
+    if "url" in updated:
+        ctx.log.info("url value: %s" % ctx.options.url)
+    if "response_body" in updated:
+        ctx.log.info("response_body value: %s" % ctx.options.response_body)

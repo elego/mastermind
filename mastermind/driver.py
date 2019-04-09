@@ -6,6 +6,9 @@ from tinydb import TinyDB
 from .say import logger
 from . import pid
 
+from mitmproxy import ctx
+from mitmproxy.addons import wsgiapp
+
 
 class Driver:
     """
@@ -65,13 +68,15 @@ app.host = '127.0.0.1'
 driver = Driver()
 
 
-def register(context):
-    driver.root(context.source_dir)
-    driver.storage(context.storage_dir)
-    driver.proxy_host = context.host
-    driver.proxy_port = context.port
-    context.app_registry.add(app, driver_host, driver_port)
-    return context
+def register():
+    driver.root(ctx.options.source_dir)
+    driver.storage(ctx.options.storage_dir)
+    driver.proxy_host = ctx.options.listen_host
+    driver.proxy_port = ctx.options.listen_port
+
+
+def reload():
+    wsgiapp.WSGIApp(app, driver_host, driver_port)
 
 
 # Links use https://tools.ietf.org/html/rfc6570 URI templates

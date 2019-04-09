@@ -174,16 +174,17 @@ def simple_mode(config):
     if not ("response-body" in config["core"] and "url" in config["core"]):
         return Exception("Simple mode requires response-body and url flags")
 
-    script_path_template = "{}/scripts/simple.py"
     script_path = os.path.dirname(os.path.realpath(__file__))
 
     if getattr(sys, 'frozen', False):
         script_path = sys._MEIPASS
 
-    script_arg = ["--script",
-                  script_path_template.format(script_path),
-                  config["core"]["url"],
-                  config["core"]["response-body"]]
+    url = config["core"]["url"]
+    response_body = config["core"]["response-body"]
+
+    script_arg = ["--script", f"""{script_path}/scripts/flasked.py""",
+                  "--set", f"""url={url}""",
+                  "--set", f"""response_body={response_body}"""]
 
     return common_args(config) + script_arg + verbosity_args(config)
 
@@ -214,18 +215,20 @@ def driver_mode(config):
     if not os.path.isdir(storage_path()):
         os.makedirs(storage_path())
 
-    script_path_template = "{}/scripts/flasked.py"
     script_path = os.path.dirname(os.path.realpath(__file__))
     if getattr(sys, 'frozen', False):
         script_path = sys._MEIPASS
 
-    script_arg = ["--script",
-                  script_path_template.format(script_path),
-                  config["core"]["source-dir"],
-                  config["core"]["storage-dir"],
-                  config["core"]["listen-host"],
-                  str(config["core"]["listen-port"])
-                 ]
+    source_dir = config["core"]["source-dir"]
+    storage_dir = config["core"]["storage-dir"]
+    listen_host = config["core"]["listen-host"]
+    listen_port = config["core"]["listen-port"]
+
+    script_arg = ["--script", f"""{script_path}/scripts/flasked.py""",
+                  "--set", f"""source_dir={source_dir}""",
+                  "--set", f"""storage_dir={storage_dir}""",
+                  "--set", f"""listen_host={listen_host}""",
+                  "--set", f"""listen_port={str(listen_port)}"""]
 
     return common_args(config) + script_arg + verbosity_args(config)
 

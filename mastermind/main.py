@@ -23,6 +23,8 @@ def main():
     port = config["core"]["listen-port"]
     pid_filename = pid.filename(host, port)
 
+    print(mitm_args)
+
     if args.pid:
         parser.exit(message=pid.message(host, port))
 
