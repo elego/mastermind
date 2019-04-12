@@ -1,7 +1,7 @@
 from __future__ import (absolute_import, print_function, division)
 
 import sys
-import mitmproxy 
+import mitmproxy
 from mitmproxy import ctx
 
 from mastermind import (driver, handlers)
@@ -20,7 +20,7 @@ def load(loader):
     loader.add_option(
         "source_dir", str, "", (
             "An absolute path used as a source directory to"
-            "lookup for mock rules"
+            "lookup for mock rules."
         )
     )
     ctx.log.info("Registering option 'storage_dir'")
@@ -37,7 +37,7 @@ def configure(updated):
     if "source_dir" in updated:
         ctx.log.info("source_dir value: %s" % ctx.options.source_dir)
     if "storage_dir" in updated:
-        ctx.log.info("source_dir value: %s" % ctx.options.storage_dir)
+        ctx.log.info("storage_dir value: %s" % ctx.options.storage_dir)
     if ctx.options.source_dir and ctx.options.storage_dir:
         driver.reload()
         ctx.log.info("driver reloaded...")

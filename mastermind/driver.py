@@ -69,14 +69,16 @@ driver = Driver()
 
 
 def register():
+    return wsgiapp.WSGIApp(app, driver_host, driver_port)
+
+
+def reload():
+    driver.stop(driver_host)
     driver.root(ctx.options.source_dir)
     driver.storage(ctx.options.storage_dir)
     driver.proxy_host = ctx.options.listen_host
     driver.proxy_port = ctx.options.listen_port
-
-
-def reload():
-    wsgiapp.WSGIApp(app, driver_host, driver_port)
+    driver.start(driver_host)
 
 
 # Links use https://tools.ietf.org/html/rfc6570 URI templates

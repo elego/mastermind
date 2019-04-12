@@ -225,10 +225,10 @@ def driver_mode(config):
     listen_port = config["core"]["listen-port"]
 
     script_arg = ["--script", f"""{script_path}/scripts/flasked.py""",
-                  "--set", f"""source_dir={source_dir}""",
-                  "--set", f"""storage_dir={storage_dir}""",
-                  "--set", f"""listen_host={listen_host}""",
-                  "--set", f"""listen_port={str(listen_port)}"""]
+                  "--set", f"""source-dir={source_dir}""",
+                  "--set", f"""storage-dir={storage_dir}""",
+                  "--set", f"""listen-host={listen_host}""",
+                  "--set", f"""listen-port={str(listen_port)}"""]
 
     return common_args(config) + script_arg + verbosity_args(config)
 
